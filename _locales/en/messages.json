@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "I Hate To Wait",
+    "description": "The title of the application."
+  },
+  "appShortName": {
+    "message": "IHATE",
+    "description": "THe application short-name"
+  },
+  "appDesc": {
+    "message": "This extension allow you to download your favorite content immediately from supported sites. without clicks and countdowns.",
+    "description":"The description of the application."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "I Hate To Wait",
+    "description": "The title of the application."
+  },
+  "appShortName": {
+    "message": "IHATE",
+    "description": "The application short-name"
+  },
+  "appDesc": {
+    "message": "תוסף זה מאפשר לך להוריד בקלות תוכן מאתרים נתמכים. יותר אין צורך לדלג על פרסומות, לעבור שוב ושוב בין דפים או לספור לאחור...",
+    "description":"The description of the application."
+  }
+}
