@@ -21,14 +21,14 @@ ImmediatelyUnlock.unlockHandlers = {
 
 			window.open(videos[0].file);
 
-			return true;
+			ImmediatelyUnlock.success();
 		})
 	},
 	f2h: function(source){
 
-		var $page = $(source).find('form[name=myform]');
+		var $form = $(source).find('form[name=myform]');
 
-		$page.submit();
+		$form.submit();
 
 		return true;
 	},

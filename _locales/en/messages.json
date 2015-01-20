@@ -9,6 +9,12 @@
   },
   "appDesc": {
     "message": "This extension allow you to download your favorite content immediately from supported sites. without clicks and countdowns.",
-    "description":"The description of the application."
+    "description": "The description of the application."
+  },
+  "unlockSuccess": {
+    "message": "Unlock success!"
+  },
+  "pleaseWait": {
+    "message": "Please wait..."
   }
 }

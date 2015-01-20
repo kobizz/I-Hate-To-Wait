@@ -1,8 +1,12 @@
+/** @namespace chrome.i18n */
+
+const IMAGES_DIR = 'images';
+
 var ImmediatelyUnlock = {
 	components: {},
 	properties: {},
 	settings: {
-		injectedFile: 'download.js',
+		injectedFile: 'js/download.js',
 		listenerKey: 'getSource'
 	},
 	tabProperties: {},
@@ -14,6 +18,8 @@ var ImmediatelyUnlock = {
 
 			if(request.action != self.settings.listenerKey)
 				return;
+
+			self.wait();
 
 			self.tab = sender;
 
@@ -56,12 +62,18 @@ var ImmediatelyUnlock = {
 
 			self.initProperties();
 
+			self.initComponents();
+
 			self.run();
 		});
 	},
 	initComponents: function(){
 
 		this.components.$indicator = $('#indicator');
+
+		this.components.$indicatorImage = $('#indicator-image');
+
+		this.components.$indicatorMessage = $('#indicator-message');
 	},
 	isSupportedSite: function(){
 
@@ -86,17 +98,29 @@ var ImmediatelyUnlock = {
 		if(!this.isSupportedSite())
 			return;
 
-		this.initComponents();
-
 		this.addListener();
 
 		this.executeScript();
+	},
+	success: function(){
+
+		this.writeStatus(chrome.i18n.getMessage('unlockSuccess'), 'done1.png');
 	},
 	unlock: function(){
 
 		var unlockHandler = this.getUnlockHandler();
 
 		if(unlockHandler.call(this.tab, this.tabProperties.innerHTML))
-			this.onUnlockSuccess();
+			this.success();
+	},
+	wait: function(){
+
+		this.writeStatus(chrome.i18n.getMessage('pleaseWait'), 'loader.gif');
+	},
+	writeStatus: function(message, image){
+
+		this.components.$indicatorMessage.text(message);
+
+		this.components.$indicatorImage.attr('src', image ? IMAGES_DIR + '/' + image : '');
 	}
 };
