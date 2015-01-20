@@ -31,5 +31,17 @@ ImmediatelyUnlock.unlockHandlers = {
 		$page.submit();
 
 		return true;
+	},
+	upf: function(source){
+
+		var $form = $(source).find('#downloadContent').children('form'),
+			formData = $form.serialize();
+
+		$.post(this.url, formData, function(res){
+
+			window.open(res.match(/(http:\/\/down[^"]*)/)[1]);
+
+			ImmediatelyUnlock.success();
+		});
 	}
 };
