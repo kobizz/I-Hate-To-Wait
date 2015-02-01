@@ -5,48 +5,10 @@ const IMAGES_DIR = 'images';
 var ImmediatelyUnlock = {
 	components: {},
 	properties: {},
-	settings: {
-		injectedFile: 'js/download.js',
-		listenerKey: 'getSource'
-	},
-	tabProperties: {},
-	addListener: function(){
-
-		var self = this;
-
-		chrome.extension.onMessage.addListener(function(request, sender){
-
-			if(request.action != self.settings.listenerKey)
-				return;
-
-			self.wait();
-
-			self.tab = sender;
-
-			self.tabProperties.innerHTML = request.source;
-
-			self.unlock();
-		});
-	},
-	executeScript: function(){
-
-		chrome.tabs.executeScript(null, {
-			file: this.settings.injectedFile
-		}, function(){
-			if(chrome.extension.lastError) {
-				console.log('There was an error injecting script : \n' + chrome.extension.lastError.message);
-			}
-		});
-	},
-	getHostFromURL: function(){
-
-		var hostname = this.tabProperties.url.match(/https?:\/\/([^\/]*)/);
-
-		return hostname && hostname[1];
-	},
+	settings: {},
 	getSiteTag: function(){
 
-		return this.supportedSites[this.tabProperties.hostname];
+		return this.supportedSites[location.hostname];
 	},
 	getUnlockHandler: function(){
 
@@ -56,16 +18,11 @@ var ImmediatelyUnlock = {
 
 		var self = this;
 
-		chrome.tabs.getSelected(null, function(tab){
+		self.initProperties();
 
-			self.initTabProperties(tab);
+		self.initComponents();
 
-			self.initProperties();
-
-			self.initComponents();
-
-			self.run();
-		});
+		self.run();
 	},
 	initComponents: function(){
 
@@ -83,24 +40,24 @@ var ImmediatelyUnlock = {
 
 		this.properties.unlockHandler = this.getUnlockHandler();
 	},
-	initTabProperties: function(tab){
-
-		this.tabProperties.url = tab.url;
-
-		this.tabProperties.hostname = this.getHostFromURL();
-	},
 	onUnlockSuccess: function(){
 
 		this.components.$indicator.text('unlock success!');
+	},
+	supportedAppearance: function(){
+
+		chrome.extension.sendMessage({
+			action: 'markSupportedSite'
+		});
 	},
 	run: function(){
 
 		if(!this.isSupportedSite())
 			return;
 
-		this.addListener();
+		this.supportedAppearance();
 
-		this.executeScript();
+		this.unlock();
 	},
 	success: function(){
 
@@ -110,7 +67,7 @@ var ImmediatelyUnlock = {
 
 		var unlockHandler = this.getUnlockHandler();
 
-		if(unlockHandler.call(this.tab, this.tabProperties.innerHTML))
+		if(unlockHandler())
 			this.success();
 	},
 	wait: function(){

@@ -1,9 +1,13 @@
+ImmediatelyUnlock.unlockHandler = function(){
+	
+};
+
 ImmediatelyUnlock.unlockHandlers = {
-	allmyvideos: function(source){
+	allmyvideos: function(){
 
-		var data = $(source).find('form[name=F1]').serializeArray();
+		var data = $('form[name=F1]').serializeArray();
 
-		$.post(ImmediatelyUnlock.tabProperties.url, data, function(res){
+		$.post('', data, function(res){
 
 			var videos = [];
 
@@ -19,29 +23,34 @@ ImmediatelyUnlock.unlockHandlers = {
 				videos.push(JSON.parse(video));
 			});
 
-			window.open(videos[0].file);
+			window.open(videos[videos.length - 1].file);
 
 			ImmediatelyUnlock.success();
 		})
 	},
-	f2h: function(source){
+	f2h: function(){
 
-		var $form = $(source).find('form[name=myform]');
-
-		$form.submit();
+		$('form[name=myform]').submit();
 
 		return true;
 	},
-	upf: function(source){
+	upf: function(){
 
-		var $form = $(source).find('#downloadContent').children('form'),
+		var $form = $('#downloadContent').children('form'),
 			formData = $form.serialize();
 
-		$.post(this.url, formData, function(res){
+		$.post('', formData, function(res){
 
 			window.open(res.match(/(http:\/\/down[^"]*)/)[1]);
 
 			ImmediatelyUnlock.success();
+		});
+	},
+	koshare: function(){
+
+		$.get('m1.php', function(res){
+
+			window.open($(res).find('.groovybutton').attr('onclick').match(/NewWindow\('([^']*)/)[1]);
 		});
 	}
 };
