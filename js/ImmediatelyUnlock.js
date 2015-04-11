@@ -6,6 +6,10 @@ var ImmediatelyUnlock = {
 	components: {},
 	properties: {},
 	settings: {},
+    error: function (message) {
+
+        alert(message);
+    },
 	getSiteTag: function(){
 
 		return this.supportedSites[location.hostname];
