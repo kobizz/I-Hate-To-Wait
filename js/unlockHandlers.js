@@ -123,5 +123,16 @@ ImmediatelyUnlock.unlockHandlers = {
             parseVideo($(this).children('a').attr('href'));
         })
     },
+    videomega: function () {
+
+        var iframe = $('iframe')[0];
+
+        if (!iframe)
+            return;
+
+        var video = iframe.contentDocument.getElementById('container_html5_api');
+
+        if (video)
+            open(video.src);
 	}
 };

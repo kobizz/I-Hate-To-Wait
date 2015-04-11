@@ -6,4 +6,5 @@ ImmediatelyUnlock.supportedSites = {
 	'short.koshare.me': 'koshare',
     'www.sdarot.tv': 'sdarot',
     'www.sdarot.pm': 'sdarot',
+    'videomega.tv': 'videomega'
 };
