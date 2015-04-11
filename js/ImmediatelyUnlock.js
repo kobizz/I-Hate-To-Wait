@@ -12,7 +12,27 @@ var ImmediatelyUnlock = {
     },
 	getSiteTag: function(){
 
-		return this.supportedSites[location.hostname];
+        var tag = this.supportedSites[location.hostname];
+
+        if(tag)
+            return tag;
+
+        Object.keys(this.supportedSites).forEach(function (key) {
+
+            if(! /^\/.+\/$/.test(key))
+                return;
+
+            var regex = new RegExp(key.slice(1, -1));
+
+            if(regex.test(location.hostname)){
+
+                tag = ImmediatelyUnlock.supportedSites[key];
+
+                return false;
+            }
+        });
+
+		return tag;
 	},
 	getUnlockHandler: function(){
 
