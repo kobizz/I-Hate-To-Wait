@@ -52,5 +52,76 @@ ImmediatelyUnlock.unlockHandlers = {
 
 			window.open($(res).find('.groovybutton').attr('onclick').match(/NewWindow\('([^']*)/)[1]);
 		});
+    },
+    sdarot: function () {
+
+        var serieRegex = '^/watch/(\\d+)',
+            seasonRegex = '.*/season/(\\d+)',
+            episodeRegex = '/episode/(\\d+)';
+
+        var videoDetails = {
+            serie: {
+                regexp: new RegExp(serieRegex)
+            },
+            season: {
+                regexp: new RegExp(serieRegex + seasonRegex)
+            },
+            episode: {
+                regexp: new RegExp(serieRegex + seasonRegex + episodeRegex)
+            }
+        };
+
+        if (!location.pathname.match(videoDetails.serie.regexp))
+            return;
+
+        var goToVideo = function (serie, season, episode) {
+
+            var videoParams = {
+                watch: false,
+                serie: serie,
+                season: season,
+                episode: episode
+            };
+
+            $.post('/ajax/watch', videoParams, function (data) {
+
+                if(data.error)
+                    return ImmediatelyUnlock.error(data.error);
+                
+                var quality = data.hd ? 'hd' : 'sd',
+                    token = data.watch[quality];
+
+                var url = 'http://' + data.url + '/watch/' + quality + '/' + data.VID + '.mp4?token=' + token + '&time=' + data.time;
+
+                open(url, '_blank');
+            }, 'json');
+        };
+
+        var parseVideo = function (url) {
+
+            var i = 1;
+
+            for (var item in videoDetails) {
+
+                if (!videoDetails.hasOwnProperty(item))
+                    continue;
+
+                var number = url.match(videoDetails[item].regexp);
+
+                if (number)
+                    videoDetails[item].number = number[i++];
+            }
+
+            if (videoDetails.season.number && videoDetails.episode.number)
+                goToVideo(videoDetails.serie.number, videoDetails.season.number, videoDetails.episode.number);
+        };
+
+        parseVideo(location.pathname);
+
+        $('#episode').children('li').on('click', function () {
+
+            parseVideo($(this).children('a').attr('href'));
+        })
+    },
 	}
 };

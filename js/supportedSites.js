@@ -3,5 +3,7 @@ ImmediatelyUnlock.supportedSites = {
 	'allmyvideos.net': 'allmyvideos',
 	'vidspot.net': 'allmyvideos',
 	'www.upf.co.il': 'upf',
-	'short.koshare.me': 'koshare'
+	'short.koshare.me': 'koshare',
+    'www.sdarot.tv': 'sdarot',
+    'www.sdarot.pm': 'sdarot',
 };
