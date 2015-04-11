@@ -1,57 +1,60 @@
-ImmediatelyUnlock.unlockHandler = function(){
-	
+'use strict';
+
+ImmediatelyUnlock.unlockHandler = function () {
+
 };
 
 ImmediatelyUnlock.unlockHandlers = {
-	allmyvideos: function(){
+    allmyvideos: function () {
 
-		var data = $('form[name=F1]').serializeArray();
+        var data = $('form[name=F1]').serializeArray();
 
-		$.post('', data, function(res){
+        $.post('', data, function (res) {
 
-			var videos = [];
+            var videos = [];
 
-			try{
-				res = res.match(/"sources"\s*:\s*\[[^{]*({[^}]*}[^\]]*)]/)[1].match(/{[^}]*}/g);
-			}
-			catch(e){}
+            try {
+                res = res.match(/"sources"\s*:\s*\[[^{]*({[^}]*}[^\]]*)]/)[1].match(/{[^}]*}/g);
+            }
+            catch (e) {
+            }
 
-			if(!res)
-				return;
+            if (!res)
+                return;
 
-			res.forEach(function(video){
-				videos.push(JSON.parse(video));
-			});
+            res.forEach(function (video) {
+                videos.push(JSON.parse(video));
+            });
 
-			window.open(videos[videos.length - 1].file);
+            open(videos[videos.length - 1].file);
 
-			ImmediatelyUnlock.success();
-		})
-	},
-	f2h: function(){
+            ImmediatelyUnlock.success();
+        })
+    },
+    f2h: function () {
 
-		$('form[name=myform]').submit();
+        $('form[name=myform]').submit();
 
-		return true;
-	},
-	upf: function(){
+        return true;
+    },
+    upf: function () {
 
-		var $form = $('#downloadContent').children('form'),
-			formData = $form.serialize();
+        var $form = $('#downloadContent').children('form'),
+            formData = $form.serialize();
 
-		$.post('', formData, function(res){
+        $.post('', formData, function (res) {
 
-			window.open(res.match(/(http:\/\/down[^"]*)/)[1]);
+            window.open(res.match(/(http:\/\/down[^"]*)/)[1]);
 
-			ImmediatelyUnlock.success();
-		});
-	},
-	koshare: function(){
+            ImmediatelyUnlock.success();
+        });
+    },
+    koshare: function () {
 
-		$.get('m1.php', function(res){
+        $.get('m1.php', function (res) {
 
-			window.open($(res).find('.groovybutton').attr('onclick').match(/NewWindow\('([^']*)/)[1]);
-		});
+            window.open($(res).find('.groovybutton').attr('onclick').match(/NewWindow\('([^']*)/)[1]);
+        });
     },
     sdarot: function () {
 
@@ -134,5 +137,5 @@ ImmediatelyUnlock.unlockHandlers = {
 
         if (video)
             open(video.src);
-	}
+    }
 };
