@@ -137,5 +137,9 @@ ImmediatelyUnlock.unlockHandlers = {
 
         if (video)
             open(video.src);
+    },
+    tinylinks: function () {
+
+        document.getElementById('skiplink').dispatchEvent(new MouseEvent('click'));
     }
 };

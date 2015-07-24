@@ -4,5 +4,6 @@ ImmediatelyUnlock.supportedSites = {
 	'www.upf.co.il': 'upf',
 	'short.koshare.me': 'koshare',
     '/www\.sdarot\.[tv|pm]/': 'sdarot',
-    'videomega.tv': 'videomega'
+    'videomega.tv': 'videomega',
+    'tinylinks.co': 'tinylinks'
 };
