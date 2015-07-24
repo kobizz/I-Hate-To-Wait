@@ -12,7 +12,7 @@ var ImmediatelyUnlock = {
     },
 	getSiteTag: function(){
 
-        var tag = this.supportedSites[location.hostname];
+        var tag = this.supportedSites[location.hostname.replace(/^www\./, '')];
 
         if(tag)
             return tag;
